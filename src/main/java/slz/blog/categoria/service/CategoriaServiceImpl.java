@@ -55,7 +55,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public List<CategoriaModel> listCategoria() {
+	public List<CategoriaModel> listadoCategoria() {
 		List<CategoriaModel> listadoCategoriaModel = new ArrayList<CategoriaModel>();
 
 		try {

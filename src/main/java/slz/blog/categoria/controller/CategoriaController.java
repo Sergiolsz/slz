@@ -113,7 +113,7 @@ public class CategoriaController {
 		List<CategoriaModel> listadoCategoria = new ArrayList<CategoriaModel>();
 		
 		try {
-			listadoCategoria = categoriaService.listCategoria();	
+			listadoCategoria = categoriaService.listadoCategoria();	
 			if (listadoCategoria != null) {
 				responseListadoCategoria = new ResponseEntity<List<CategoriaModel>>(listadoCategoria,  HttpStatus.OK);
 			} else {
