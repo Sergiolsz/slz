@@ -1,23 +1,37 @@
 package slz.blog.entrada.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import slz.blog.categoria.entity.Categoria;
 import slz.blog.etiqueta.entity.Etiqueta;
 
+@Entity
+@Table(name = "entrada")
 public class Entrada {
 
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id", unique = true, nullable = false)
 	private int idEntrada;
-	private int idUsuario;
 	
+	@Column(name = "autor", nullable = false, length = 50)
 	private String autor;
-	
+
+	@Column(name = "titulo", nullable = false, length = 50)
 	private String tituloEntrada;
 	
+	@Column(name = "fecha", nullable = false, length = 50)
 	private String fechaPublicacion;
 	
+	@Column(name = "contenido", nullable = false, length = 500)
 	private String contenidoEntrada;
 	
 	private Categoria categoria;
-	
 	private Etiqueta etiqueta;
 
 	public int getIdEntrada() {
@@ -26,14 +40,6 @@ public class Entrada {
 
 	public void setIdEntrada(int idEntrada) {
 		this.idEntrada = idEntrada;
-	}
-
-	public int getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
 	}
 
 	public String getAutor() {

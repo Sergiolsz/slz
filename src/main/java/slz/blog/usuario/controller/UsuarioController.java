@@ -24,6 +24,14 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 
+	/**
+	 * 
+	 * Alta de un usuario del blog
+	 * 
+	 * @param altaUsuario
+	 * @param errors
+	 * @return ResponseEntity
+	 */
 	@PostMapping("/create")
 	public ResponseEntity<RespuestaBlog> crearUsuario(@Validated @RequestBody UsuarioModel altaUsuario, BindingResult errors) {
 		ResponseEntity<RespuestaBlog> responseCrear = null;
@@ -44,6 +52,13 @@ public class UsuarioController {
 		return responseCrear;
 	}
 
+	/**
+	 * 
+	 * Borrado de un usuario del blog
+	 * 
+	 * @param idUsuario
+	 * @return ResponseEntity
+	 */
 	@PostMapping("/delete")
 	public ResponseEntity<RespuestaBlog> borrarUsuario(@RequestParam(name = "idUsuario", required = true) long idUsuario) {
 		ResponseEntity<RespuestaBlog> responseBorrar = null;
@@ -59,6 +74,13 @@ public class UsuarioController {
 		return responseBorrar;
 	}
 
+	/**
+	 * 
+	 * Edición de los datos de un usuario del blog
+	 * 
+	 * @param usuarioModel
+	 * @return ResponseEntity
+	 */
 	@PostMapping("/edit")
 	public ResponseEntity<RespuestaBlog> editarDatosCliente(@Validated @RequestBody UsuarioModel usuarioModel) {
 		ResponseEntity<RespuestaBlog> responseEditar = null;
@@ -74,6 +96,13 @@ public class UsuarioController {
 		return responseEditar;
 	}
 
+	/**
+	 * 
+	 * Devuelve el listado de usuarios registrados en el blog
+	 * 
+	 * @param usuarioModel
+	 * @return ResponseEntity<List<UsuarioModel>>
+	 */
 	@PostMapping("/list")
 	public ResponseEntity<List<UsuarioModel>> listUsuarios(@RequestBody(required = false) UsuarioModel usuarioModel) {
 		ResponseEntity<List<UsuarioModel>> responseListUsuarios = null;

@@ -8,47 +8,48 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name = "usuario")
 public class Usuario {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
-	private long id;
-	@Column(name = "name", nullable = false, length = 50)
-	private String name;
+	private long idUsuario;
+	
+	@Column(name = "nombre", nullable = false, length = 50)
+	private String nombre;
+	
 	@Column(name = "password", nullable = false, length = 50)
 	private String password;
-	
-	
-	public Usuario(String name, String password) {
-		this.name = name;
+
+	public Usuario(String nombre, String password) {
+		this.nombre = nombre;
 		this.password = password;
 	}
-	
-	
-	public long getId() {
-		return id;
+
+	public long getIdUsuario() {
+		return idUsuario;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setIdUsuario(long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
-	public String getName() {
-		return name;
+	public String getNombre() {
+		return nombre;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	
 }
