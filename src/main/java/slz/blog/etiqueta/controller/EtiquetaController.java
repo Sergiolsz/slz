@@ -1,4 +1,4 @@
-package slz.blog.usuario.controller;
+package slz.blog.etiqueta.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,31 +13,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import slz.blog.etiqueta.model.EtiquetaModel;
+import slz.blog.etiqueta.service.EtiquetaService;
 import slz.blog.global.model.RespuestaBlog;
 import slz.blog.global.utils.BlogUtil;
-import slz.blog.usuario.model.UsuarioModel;
-import slz.blog.usuario.service.UsuarioService;
 
 @Controller
-public class UsuarioController {
+public class EtiquetaController {
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private EtiquetaService etiquetaService;
 
 	/**
 	 * 
-	 * Alta de un usuario del blog
+	 * Crear una etiqueta
 	 * 
-	 * @param altaUsuario
+	 * @param crearEtiqueta
 	 * @param errors
 	 * @return ResponseEntity
 	 */
-	@PostMapping("/altaUsuario")
-	public ResponseEntity<RespuestaBlog> crearUsuario(@Validated @RequestBody UsuarioModel altaUsuario, BindingResult errors) {
+	@PostMapping("/crearEtiqueta")
+	public ResponseEntity<RespuestaBlog> crearEtiqueta(@Validated @RequestBody EtiquetaModel crearEtiqueta, BindingResult errors) {
 		ResponseEntity<RespuestaBlog> responseCrear = null;
 		try {
 			if(!errors.hasErrors()) {
-				boolean usuarioCreado = usuarioService.crearUsuario(altaUsuario);
+				boolean usuarioCreado = etiquetaService.crearEtiqueta(crearEtiqueta);
 				if(usuarioCreado) {
 					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
 				} else {
@@ -54,16 +54,16 @@ public class UsuarioController {
 
 	/**
 	 * 
-	 * Borrado de un usuario del blog
+	 * Borrado de una etiqueta
 	 * 
-	 * @param idUsuario
+	 * @param idEtiqueta
 	 * @return ResponseEntity
 	 */
-	@PostMapping("/bajaUsuario")
-	public ResponseEntity<RespuestaBlog> borrarUsuario(@RequestParam(name = "idUsuario", required = true) long idUsuario) {
+	@PostMapping("/borrarEtiqueta")
+	public ResponseEntity<RespuestaBlog> borrarEtiqueta(@RequestParam(name = "idEtiqueta", required = true) long idEtiqueta) {
 		ResponseEntity<RespuestaBlog> responseBorrar = null;
 		try {
-			boolean borrarOk= usuarioService.bajaUsuario(idUsuario);
+			boolean borrarOk= etiquetaService.borrarEtiqueta(idEtiqueta);
 			responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.OK); 
 			if(!borrarOk) {
 				responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED); 
@@ -76,16 +76,16 @@ public class UsuarioController {
 
 	/**
 	 * 
-	 * Edición de los datos de un usuario del blog
+	 * Edición de los datos de una etiqueta
 	 * 
 	 * @param usuarioModel
 	 * @return ResponseEntity
 	 */
-	@PostMapping("/editarUsuario")
-	public ResponseEntity<RespuestaBlog> editarDatosCliente(@Validated @RequestBody UsuarioModel usuarioModel) {
+	@PostMapping("/editarEtiqueta")
+	public ResponseEntity<RespuestaBlog> editarEtiqueta(@Validated @RequestBody EtiquetaModel etiquetaEditada) {
 		ResponseEntity<RespuestaBlog> responseEditar = null;
 		try {
-			boolean editarOk= usuarioService.editarUsuario(usuarioModel);
+			boolean editarOk= etiquetaService.editarEtiqueta(etiquetaEditada);
 			responseEditar = new ResponseEntity<RespuestaBlog>(HttpStatus.OK); 
 			if(!editarOk) {
 				responseEditar = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED); 
@@ -98,25 +98,25 @@ public class UsuarioController {
 
 	/**
 	 * 
-	 * Devuelve el listado de usuarios registrados en el blog
+	 * Devuelve el listado de las etiquetas creadas en el blog
 	 * 
 	 * @param usuarioModel
-	 * @return ResponseEntity<List<UsuarioModel>>
+	 * @return ResponseEntity<List<EtiquetaModel>>
 	 */
-	@PostMapping("/listadoUsuarios")
-	public ResponseEntity<List<UsuarioModel>> listadoUsuarios(@RequestBody(required = false) UsuarioModel usuarioModel) {
-		ResponseEntity<List<UsuarioModel>> responseListUsuarios = null;
-		List<UsuarioModel> listadoUsuarios = new ArrayList<UsuarioModel>();
+	@PostMapping("/listadoEtiquetas")
+	public ResponseEntity<List<EtiquetaModel>> listadoEtiquetas(@RequestBody(required = false) EtiquetaModel etiquetaModel) {
+		ResponseEntity<List<EtiquetaModel>> responseListadoEtiquetas = null;
+		List<EtiquetaModel> listadoEtiquetas = new ArrayList<EtiquetaModel>();
 		try {
-			listadoUsuarios = usuarioService.listUsuarios(usuarioModel);
-			if (listadoUsuarios != null) {
-				responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.OK);
+			listadoEtiquetas = etiquetaService.listadoEtiqueta();
+			if (listadoEtiquetas != null) {
+				responseListadoEtiquetas = new ResponseEntity<List<EtiquetaModel>>(listadoEtiquetas,  HttpStatus.OK);
 			} else {
-				responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.NO_CONTENT);
+				responseListadoEtiquetas = new ResponseEntity<List<EtiquetaModel>>(listadoEtiquetas,  HttpStatus.NO_CONTENT);
 			}
 		} catch (Exception exception) {
-			responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.INTERNAL_SERVER_ERROR);
+			responseListadoEtiquetas = new ResponseEntity<List<EtiquetaModel>>(listadoEtiquetas,  HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return responseListUsuarios;
+		return responseListadoEtiquetas;
 	}
 }

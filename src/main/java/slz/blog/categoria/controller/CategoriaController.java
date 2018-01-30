@@ -1,4 +1,4 @@
-package slz.blog.usuario.controller;
+package slz.blog.categoria.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,32 +13,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import slz.blog.categoria.model.CategoriaModel;
+import slz.blog.categoria.service.CategoriaService;
 import slz.blog.global.model.RespuestaBlog;
 import slz.blog.global.utils.BlogUtil;
-import slz.blog.usuario.model.UsuarioModel;
-import slz.blog.usuario.service.UsuarioService;
 
 @Controller
-public class UsuarioController {
+public class CategoriaController {
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private CategoriaService categoriaService;
 
 	/**
 	 * 
-	 * Alta de un usuario del blog
+	 * Crear una categoria del blog
 	 * 
-	 * @param altaUsuario
+	 * @param crearCategoria
 	 * @param errors
 	 * @return ResponseEntity
 	 */
-	@PostMapping("/altaUsuario")
-	public ResponseEntity<RespuestaBlog> crearUsuario(@Validated @RequestBody UsuarioModel altaUsuario, BindingResult errors) {
+	@PostMapping("/crearCategoria")
+	public ResponseEntity<RespuestaBlog> crearCategoria(@Validated @RequestBody CategoriaModel crearCategoria, BindingResult errors) {
 		ResponseEntity<RespuestaBlog> responseCrear = null;
+
 		try {
 			if(!errors.hasErrors()) {
-				boolean usuarioCreado = usuarioService.crearUsuario(altaUsuario);
-				if(usuarioCreado) {
+				boolean categoriaCreada = categoriaService.crearCategoria(crearCategoria);
+				if(categoriaCreada) {
 					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
 				} else {
 					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
@@ -49,43 +50,47 @@ public class UsuarioController {
 		} catch (Exception e) {
 			responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
+
 		return responseCrear;
 	}
 
 	/**
 	 * 
-	 * Borrado de un usuario del blog
+	 * Borrado de una categoria del blog
 	 * 
-	 * @param idUsuario
+	 * @param idCategoria
 	 * @return ResponseEntity
 	 */
-	@PostMapping("/bajaUsuario")
-	public ResponseEntity<RespuestaBlog> borrarUsuario(@RequestParam(name = "idUsuario", required = true) long idUsuario) {
+	@PostMapping("/borrarCategoria")
+	public ResponseEntity<RespuestaBlog> borrarUsuario(@RequestParam(name = "idUsuario", required = true) long idCategoria) {
 		ResponseEntity<RespuestaBlog> responseBorrar = null;
+
 		try {
-			boolean borrarOk= usuarioService.bajaUsuario(idUsuario);
-			responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.OK); 
-			if(!borrarOk) {
+			boolean borrarOk= categoriaService.borrarCategoria(idCategoria);
+			if(borrarOk) {
+				responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.OK); 
+			} else {
 				responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED); 
 			}
 		} catch (Exception e) {
 			responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
+
 		return responseBorrar;
 	}
 
 	/**
 	 * 
-	 * Edición de los datos de un usuario del blog
+	 * Edición de una categoria
 	 * 
-	 * @param usuarioModel
+	 * @param editarCategoria
 	 * @return ResponseEntity
 	 */
-	@PostMapping("/editarUsuario")
-	public ResponseEntity<RespuestaBlog> editarDatosCliente(@Validated @RequestBody UsuarioModel usuarioModel) {
+	@PostMapping("/editarCategoria")
+	public ResponseEntity<RespuestaBlog> editarDatosCliente(@Validated @RequestBody CategoriaModel editarCategoria) {
 		ResponseEntity<RespuestaBlog> responseEditar = null;
 		try {
-			boolean editarOk= usuarioService.editarUsuario(usuarioModel);
+			boolean editarOk= categoriaService.editarCategoria(editarCategoria);
 			responseEditar = new ResponseEntity<RespuestaBlog>(HttpStatus.OK); 
 			if(!editarOk) {
 				responseEditar = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED); 
@@ -98,25 +103,26 @@ public class UsuarioController {
 
 	/**
 	 * 
-	 * Devuelve el listado de usuarios registrados en el blog
+	 * Devuelve el listado de categorias disponibles del blog
 	 * 
-	 * @param usuarioModel
-	 * @return ResponseEntity<List<UsuarioModel>>
+	 * @return ResponseEntity<List<CategoriaModel>>
 	 */
-	@PostMapping("/listadoUsuarios")
-	public ResponseEntity<List<UsuarioModel>> listadoUsuarios(@RequestBody(required = false) UsuarioModel usuarioModel) {
-		ResponseEntity<List<UsuarioModel>> responseListUsuarios = null;
-		List<UsuarioModel> listadoUsuarios = new ArrayList<UsuarioModel>();
+	@PostMapping("/listadoCategorias")
+	public ResponseEntity<List<CategoriaModel>> listadoCategorias() {
+		ResponseEntity<List<CategoriaModel>> responseListadoCategoria = null;
+		List<CategoriaModel> listadoCategoria = new ArrayList<CategoriaModel>();
+		
 		try {
-			listadoUsuarios = usuarioService.listUsuarios(usuarioModel);
-			if (listadoUsuarios != null) {
-				responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.OK);
+			listadoCategoria = categoriaService.listCategoria();	
+			if (listadoCategoria != null) {
+				responseListadoCategoria = new ResponseEntity<List<CategoriaModel>>(listadoCategoria,  HttpStatus.OK);
 			} else {
-				responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.NO_CONTENT);
+				responseListadoCategoria = new ResponseEntity<List<CategoriaModel>>(listadoCategoria,  HttpStatus.NO_CONTENT);
 			}
 		} catch (Exception exception) {
-			responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.INTERNAL_SERVER_ERROR);
+			responseListadoCategoria = new ResponseEntity<List<CategoriaModel>>(listadoCategoria,  HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return responseListUsuarios;
+		
+		return responseListadoCategoria;
 	}
 }

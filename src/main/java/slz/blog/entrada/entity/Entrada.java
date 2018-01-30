@@ -6,6 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import slz.blog.categoria.entity.Categoria;
 import slz.blog.etiqueta.entity.Etiqueta;
@@ -25,7 +30,9 @@ public class Entrada {
 	@Column(name = "titulo", nullable = false, length = 50)
 	private String tituloEntrada;
 	
-	@Column(name = "fecha", nullable = false, length = 50)
+	@Generated(GenerationTime.INSERT)
+	@Temporal(TemporalType.DATE)
+	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable=false)
 	private String fechaPublicacion;
 	
 	@Column(name = "contenido", nullable = false, length = 500)

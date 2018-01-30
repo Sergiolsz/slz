@@ -13,7 +13,7 @@ public interface CategoriaService {
 	
 	public abstract CategoriaModel getCategoria(long idCategoria);
 	
-	public List<CategoriaModel> listCategoria(CategoriaModel categoriaModel);
+	public List<CategoriaModel> listadoCategoria();
 	
 	public abstract boolean existeCategoria(long id);
 	

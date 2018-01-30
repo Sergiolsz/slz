@@ -17,7 +17,7 @@ public interface UsuarioService {
 	
 	public abstract boolean existeUsuario(long id);
 
-	boolean editarUsuario(UsuarioModel usuarioModel);
+	public boolean editarUsuario(UsuarioModel usuarioModel);
 
 	public boolean bajaUsuario(long idUsuario);
 

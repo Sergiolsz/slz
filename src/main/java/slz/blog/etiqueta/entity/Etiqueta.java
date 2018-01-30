@@ -18,4 +18,22 @@ public class Etiqueta {
 	
 	@Column(name = "nombre", nullable = false, length = 50)
 	private String nombreEtiqueta;
+
+	
+	public long getIdEtiqueta() {
+		return idEtiqueta;
+	}
+
+	public void setIdEtiqueta(long idEtiqueta) {
+		this.idEtiqueta = idEtiqueta;
+	}
+
+	public String getNombreEtiqueta() {
+		return nombreEtiqueta;
+	}
+
+	public void setNombreEtiqueta(String nombreEtiqueta) {
+		this.nombreEtiqueta = nombreEtiqueta;
+	}
+	
 }

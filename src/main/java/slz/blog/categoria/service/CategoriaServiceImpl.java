@@ -10,8 +10,6 @@ import slz.blog.categoria.entity.Categoria;
 import slz.blog.categoria.model.CategoriaModel;
 import slz.blog.categoria.repository.CategoriaRepository;
 import slz.blog.global.mapper.OrikaMapper;
-import slz.blog.usuario.entity.Usuario;
-import slz.blog.usuario.model.UsuarioModel;
 
 @Component
 public class CategoriaServiceImpl implements CategoriaService {
@@ -41,11 +39,11 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Override
 	public CategoriaModel getCategoria(long idCategoria) {
 		CategoriaModel categoriaModel = null;
-		boolean existeCategoria = false;
+		boolean existe = false;
 
 		try {
-			existeCategoria = existeCategoria(idCategoria);
-			if(existeCategoria) {
+			existe = existeCategoria(idCategoria);
+			if(existe) {
 				Categoria categoria = categoriaRepository.findOne(idCategoria);
 				categoriaModel = orikaMapper.map(categoria, CategoriaModel.class);
 			}
@@ -57,7 +55,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public List<CategoriaModel> listCategoria(CategoriaModel categoriaModel) {
+	public List<CategoriaModel> listCategoria() {
 		List<CategoriaModel> listadoCategoriaModel = new ArrayList<CategoriaModel>();
 
 		try {
@@ -84,15 +82,40 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public boolean editarCategoria(CategoriaModel usuarioModel) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean editarCategoria(CategoriaModel categoriaModel) {
+		boolean editado = false;
+
+		try {
+			Categoria categoria = categoriaRepository.findOne(categoriaModel.getIdCategoria());
+			if(categoria != null) {
+				Categoria categoriaEditada = orikaMapper.map(categoriaModel, Categoria.class);
+				categoriaEditada.setNombre(categoria.getNombre());
+				categoriaEditada = categoriaRepository.save(categoriaEditada);
+				editado = true;
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+
+		return editado;
 	}
 
 	@Override
 	public boolean borrarCategoria(long idCategoria) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean borradoCorrecto = false;
+		boolean existeCategoria = false;
+
+		try {
+			existeCategoria = existeCategoria(idCategoria);
+			if(existeCategoria) {
+				categoriaRepository.delete(idCategoria);
+				borradoCorrecto = true;
+			}
+		}catch (Exception e) {
+			throw e;
+		}
+
+		return borradoCorrecto;
 	}
 
 }
