@@ -12,7 +12,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Serializable> 
 
 	 public Usuario findById(long id);
 	 
-	 public Usuario findByNick(String nick);
-	 
 	 public Usuario findByPassword(String password);
 }

@@ -1,49 +1,93 @@
 package slz.blog.usuario.controller;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import slz.blog.usuario.entity.Usuario;
-import slz.blog.usuario.repository.UsuarioRepository;
+import slz.blog.global.model.RespuestaBlog;
+import slz.blog.global.utils.BlogUtil;
+import slz.blog.usuario.model.UsuarioModel;
+import slz.blog.usuario.service.UsuarioService;
 
 @Controller
 public class UsuarioController {
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UsuarioService usuarioService;
 
-	@RequestMapping("/create")
-	@ResponseBody
-	public String create(String name, String password) {
-		Usuario user = null;
+	@PostMapping("/create")
+	public ResponseEntity<RespuestaBlog> crearUsuario(@Validated @RequestBody UsuarioModel altaUsuario, BindingResult errors) {
+		ResponseEntity<RespuestaBlog> responseCrear = null;
 		try {
-			user = new Usuario(name, password);
-			usuarioRepository.save(user);
+			if(!errors.hasErrors()) {
+				boolean usuarioCreado = usuarioService.crearUsuario(altaUsuario);
+				if(usuarioCreado) {
+					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
+				} else {
+					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+				}
+			} else {
+				responseCrear  = BlogUtil.generarRespuestaErroresValidacion(errors);
+			}
+		} catch (Exception e) {
+			responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
-		catch (Exception ex) {
-			return "Error creating the user: " + ex.toString();
-		}
-		return "User succesfully created" ;
+		return responseCrear;
 	}
 
-	@RequestMapping("/delete")
-	@ResponseBody
-	public String delete(String password) {
-		
-		Optional<String> optional = Optional.ofNullable(password);
-		Usuario usuario = null;
-		String pass = null;
+	@PostMapping("/delete")
+	public ResponseEntity<RespuestaBlog> borrarUsuario(@RequestParam(name = "idUsuario", required = true) long idUsuario) {
+		ResponseEntity<RespuestaBlog> responseBorrar = null;
 		try {
-			usuario = usuarioRepository.findByPassword(optional.toString());
-			optional.ifPresent(idUsuario -> usuarioRepository.findByPassword(idUsuario));
+			boolean borrarOk= usuarioService.bajaUsuario(idUsuario);
+			responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.OK); 
+			if(!borrarOk) {
+				responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED); 
+			}
+		} catch (Exception e) {
+			responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
-		catch (Exception ex) {
-			return "Error deleting the user:" + ex.toString();
+		return responseBorrar;
+	}
+
+	@PostMapping("/edit")
+	public ResponseEntity<RespuestaBlog> editarDatosCliente(@Validated @RequestBody UsuarioModel usuarioModel) {
+		ResponseEntity<RespuestaBlog> responseEditar = null;
+		try {
+			boolean editarOk= usuarioService.editarUsuario(usuarioModel);
+			responseEditar = new ResponseEntity<RespuestaBlog>(HttpStatus.OK); 
+			if(!editarOk) {
+				responseEditar = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED); 
+			}
+		} catch (Exception e) {
+			responseEditar = new ResponseEntity<RespuestaBlog>(HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
-		return "User succesfully deleted!";
+		return responseEditar;
+	}
+
+	@PostMapping("/list")
+	public ResponseEntity<List<UsuarioModel>> listUsuarios(@RequestBody(required = false) UsuarioModel usuarioModel) {
+		ResponseEntity<List<UsuarioModel>> responseListUsuarios = null;
+		List<UsuarioModel> listadoUsuarios = new ArrayList<UsuarioModel>();
+		try {
+			listadoUsuarios = usuarioService.listUsuarios(usuarioModel);
+			if (listadoUsuarios != null) {
+				responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.OK);
+			} else {
+				responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception exception) {
+			responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return responseListUsuarios;
 	}
 }
