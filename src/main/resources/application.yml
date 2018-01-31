@@ -1,12 +1,12 @@
 spring:       ########MY SQL##################
   datasource:
-    url: jdbc:mysql://localhost:3306/testdtbase?useSSL=false
+    url: jdbc:mysql://localhost:3306/blog?useSSL=false
     username: root
     password: root
-  jpa:        ########HIBERNATE###############
+  jpa:       
     show-sql: true
     hibernate:
-      ddl-auto: create #Si actualiza un campo de la entity elimina el campo de la tabla de la bbdd
+      ddl-auto: create-drop #Si actualiza un campo de la entity elimina el campo de la tabla de la bbdd
       naming:
         strategy: org.hibernate.cfg.ImprovedNamingStrategy  #Forma dialecto al hacer las consultas
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl #Para respetar mayusculas y minusculas sin guiones
@@ -14,4 +14,4 @@ spring:       ########MY SQL##################
       hibernate:  
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect  #Dialecto de la bbdd --cambiado a InnoDB
   thymeleaf:
-    cache: false
+    cache: true

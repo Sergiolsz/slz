@@ -1,5 +1,6 @@
 package slz.blog.entrada.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,12 +37,15 @@ public class Entrada {
 	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.DATE)
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable=false)
-	private String fechaPublicacion;
+	private Date fechaPublicacion;
 	
 	@Column(name = "contenido", nullable = false, length = 500)
 	private String contenidoEntrada;
 	
+	@OneToMany(mappedBy="entrada")
 	private Set<Categoria> categorias;
+	
+	@OneToMany(mappedBy="entrada")
 	private Set<Etiqueta> etiquetas;
 
 	public int getIdEntrada() {
@@ -67,11 +72,11 @@ public class Entrada {
 		this.tituloEntrada = tituloEntrada;
 	}
 
-	public String getFechaPublicacion() {
+	public Date getFechaPublicacion() {
 		return fechaPublicacion;
 	}
 
-	public void setFechaPublicacion(String fechaPublicacion) {
+	public void setFechaPublicacion(Date fechaPublicacion) {
 		this.fechaPublicacion = fechaPublicacion;
 	}
 
