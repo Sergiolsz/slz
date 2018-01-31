@@ -10,7 +10,7 @@ public class UsuarioModel {
 
 	private long idUsuario;
 	@NotEmpty(message= "El campo nombre " + BlogConstants.ERROR_CAMPO_VACIO)
-	private String nombre;
+	private String nick;
 	@NotEmpty(message= "El campo password " + BlogConstants.ERROR_CAMPO_VACIO)
 	private String password;
 	
@@ -23,14 +23,14 @@ public class UsuarioModel {
 		this.idUsuario = idUsuario;
 	}
 	
-	public String getNombre() {
-		return nombre;
+	public String getNick() {
+		return nick;
 	}
-	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}

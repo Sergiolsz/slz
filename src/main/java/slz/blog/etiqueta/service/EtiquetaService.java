@@ -16,5 +16,5 @@ public interface EtiquetaService {
 	public boolean editarEtiqueta(EtiquetaModel etiquetaModel);
 
 	public boolean borrarEtiqueta(long idEtiqueta);
-
+	
 }

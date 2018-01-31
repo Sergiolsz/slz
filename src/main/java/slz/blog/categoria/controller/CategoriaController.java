@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import slz.blog.categoria.model.CategoriaModel;
 import slz.blog.categoria.service.CategoriaService;
+import slz.blog.entrada.service.EntradaService;
 import slz.blog.global.model.RespuestaBlog;
 import slz.blog.global.utils.BlogUtil;
 
@@ -23,6 +24,9 @@ public class CategoriaController {
 
 	@Autowired
 	private CategoriaService categoriaService;
+
+	@Autowired
+	private EntradaService entradaService;
 
 	/**
 	 * 
@@ -111,7 +115,7 @@ public class CategoriaController {
 	public ResponseEntity<List<CategoriaModel>> listadoCategorias() {
 		ResponseEntity<List<CategoriaModel>> responseListadoCategoria = null;
 		List<CategoriaModel> listadoCategoria = new ArrayList<CategoriaModel>();
-		
+
 		try {
 			listadoCategoria = categoriaService.listadoCategoria();	
 			if (listadoCategoria != null) {
@@ -122,7 +126,33 @@ public class CategoriaController {
 		} catch (Exception exception) {
 			responseListadoCategoria = new ResponseEntity<List<CategoriaModel>>(listadoCategoria,  HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return responseListadoCategoria;
 	}
+
+	/**
+	 * 
+	 * Añadir una categoria a la entrada
+	 * 
+	 * @param categoriaModel
+	 * @param errors
+	 * @return ResponseEntity
+	 */
+	@PostMapping("/addCategoria")
+	public ResponseEntity<RespuestaBlog> addCategoria(@RequestBody List<CategoriaModel> categoriaModel,  long idEntrada) {
+		ResponseEntity<RespuestaBlog> responseAddCategoria = null;
+		try {
+			boolean addCategorias = entradaService.addCategoriaEntrada(categoriaModel, idEntrada);
+			if(addCategorias) {
+				responseAddCategoria = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
+			} else {
+				responseAddCategoria = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED);
+			}
+		} catch (Exception e) {
+			responseAddCategoria = new ResponseEntity<RespuestaBlog>(HttpStatus.INTERNAL_SERVER_ERROR); 
+		}
+
+		return responseAddCategoria;
+	}
+
 }

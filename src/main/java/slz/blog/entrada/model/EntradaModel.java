@@ -5,8 +5,8 @@ import java.util.List;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
 
-import slz.blog.categoria.entity.Categoria;
-import slz.blog.etiqueta.entity.Etiqueta;
+import slz.blog.categoria.model.CategoriaModel;
+import slz.blog.etiqueta.model.EtiquetaModel;
 import slz.blog.global.utils.BlogConstants;
 
 @Component
@@ -21,8 +21,8 @@ public class EntradaModel {
 	@NotEmpty(message= "El contenido de la entrada " + BlogConstants.ERROR_CAMPO_VACIO)
 	private String contenidoEntrada;
 	
-	private List<Categoria> listadoCategoria;
-	private List<Etiqueta> listadoEtiqueta;
+	private List<CategoriaModel> listadoCategoria;
+	private List<EtiquetaModel> listadoEtiqueta;
 	
 	
 	public long getIdEntrada() {
@@ -65,21 +65,20 @@ public class EntradaModel {
 		this.contenidoEntrada = contenidoEntrada;
 	}
 
-	public List<Categoria> getListadoCategoria() {
+	public List<CategoriaModel> getListadoCategoria() {
 		return listadoCategoria;
 	}
 
-	public void setListadoCategoria(List<Categoria> listadoCategoria) {
+	public void setListadoCategoria(List<CategoriaModel> listadoCategoria) {
 		this.listadoCategoria = listadoCategoria;
 	}
 
-	public List<Etiqueta> getListadoEtiqueta() {
+	public List<EtiquetaModel> getListadoEtiqueta() {
 		return listadoEtiqueta;
 	}
 
-	public void setListadoEtiqueta(List<Etiqueta> listadoEtiqueta) {
+	public void setListadoEtiqueta(List<EtiquetaModel> listadoEtiqueta) {
 		this.listadoEtiqueta = listadoEtiqueta;
 	}
 
-	
 }

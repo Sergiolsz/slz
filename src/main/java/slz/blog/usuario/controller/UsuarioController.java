@@ -104,11 +104,11 @@ public class UsuarioController {
 	 * @return ResponseEntity<List<UsuarioModel>>
 	 */
 	@PostMapping("/listadoUsuarios")
-	public ResponseEntity<List<UsuarioModel>> listadoUsuarios(@RequestBody(required = false) UsuarioModel usuarioModel) {
+	public ResponseEntity<List<UsuarioModel>> listadoUsuarios() {
 		ResponseEntity<List<UsuarioModel>> responseListUsuarios = null;
 		List<UsuarioModel> listadoUsuarios = new ArrayList<UsuarioModel>();
 		try {
-			listadoUsuarios = usuarioService.listUsuarios(usuarioModel);
+			listadoUsuarios = usuarioService.listadoUsuarios();
 			if (listadoUsuarios != null) {
 				responseListUsuarios = new ResponseEntity<List<UsuarioModel>>(listadoUsuarios,  HttpStatus.OK);
 			} else {

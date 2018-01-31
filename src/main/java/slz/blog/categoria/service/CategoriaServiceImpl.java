@@ -20,6 +20,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Autowired
 	private OrikaMapper orikaMapper;
 	
+	// Método para crear una categoria del blog
 	@Override
 	public boolean crearCategoria(CategoriaModel categoriaModel) {
 		Categoria categoria = null;
@@ -36,6 +37,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		return creadaCategoria;
 	}
 
+	// Método para obtener una categoria del blog
 	@Override
 	public CategoriaModel getCategoria(long idCategoria) {
 		CategoriaModel categoriaModel = null;
@@ -54,6 +56,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		return categoriaModel;
 	}
 
+	// Método para obtener el listado de categorias
 	@Override
 	public List<CategoriaModel> listadoCategoria() {
 		List<CategoriaModel> listadoCategoriaModel = new ArrayList<CategoriaModel>();
@@ -68,6 +71,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		return listadoCategoriaModel;
 	}
 
+	// Método para comprobar si existe una categoria en la bbdd del blog
 	@Override
 	public boolean existeCategoria(long idCategoria) {
 		boolean existeCategoria = false;
@@ -81,6 +85,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		return existeCategoria;
 	}
 
+	// Método para editar una categoria
 	@Override
 	public boolean editarCategoria(CategoriaModel categoriaModel) {
 		boolean editado = false;
@@ -99,7 +104,8 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 		return editado;
 	}
-
+	
+	// Método para eliminar una categoria
 	@Override
 	public boolean borrarCategoria(long idCategoria) {
 		boolean borradoCorrecto = false;

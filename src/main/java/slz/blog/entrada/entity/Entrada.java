@@ -1,5 +1,7 @@
 package slz.blog.entrada.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,8 +40,8 @@ public class Entrada {
 	@Column(name = "contenido", nullable = false, length = 500)
 	private String contenidoEntrada;
 	
-	private Categoria categoria;
-	private Etiqueta etiqueta;
+	private Set<Categoria> categorias;
+	private Set<Etiqueta> etiquetas;
 
 	public int getIdEntrada() {
 		return idEntrada;
@@ -81,20 +83,19 @@ public class Entrada {
 		this.contenidoEntrada = contenidoEntrada;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
+	public Set<Categoria> getCategorias() {
+		return categorias;
 	}
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setCategorias(Set<Categoria> categorias) {
+		this.categorias = categorias;
 	}
 
-	public Etiqueta getEtiqueta() {
-		return etiqueta;
+	public Set<Etiqueta> getEtiquetas() {
+		return etiquetas;
 	}
 
-	public void setEtiqueta(Etiqueta etiqueta) {
-		this.etiqueta = etiqueta;
+	public void setEtiquetas(Set<Etiqueta> etiquetas) {
+		this.etiquetas = etiquetas;
 	}
-	
 }

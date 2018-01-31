@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import slz.blog.global.mapper.OrikaMapper;
 import slz.blog.usuario.entity.Usuario;
@@ -24,7 +23,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	// Método para crear un usuario
 	@Override
-	@Transactional
 	public boolean crearUsuario(UsuarioModel usuarioModel) {
 		boolean altaCorrecta = false;
 		Usuario usuario = null;
@@ -61,7 +59,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	// Método para listar todos los usuarios registrados del blog
 	@Override
-	public List<UsuarioModel> listUsuarios(UsuarioModel usuarioModel) {
+	public List<UsuarioModel> listadoUsuarios() {
 		List<UsuarioModel> listadoUsuarioModel = new ArrayList<UsuarioModel>();
 
 		try {
@@ -96,9 +94,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		try {
 			Usuario usuario = usuarioRepository.findOne(usuarioModel.getIdUsuario());
 			if(usuario != null) {
-				Optional<String> optionalNombre = Optional.ofNullable(usuarioModel.getNombre());
 				Optional<String> optionalPassword = Optional.ofNullable(usuarioModel.getPassword());
-				optionalNombre.ifPresent(nombreEditado -> usuario.setNombre(nombreEditado));
 				optionalPassword.ifPresent(passwordEditado -> usuario.setPassword(passwordEditado));
 				usuarioRepository.save(usuario);
 				editado = true;

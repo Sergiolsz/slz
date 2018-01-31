@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import slz.blog.entrada.service.EntradaService;
 import slz.blog.etiqueta.model.EtiquetaModel;
 import slz.blog.etiqueta.service.EtiquetaService;
 import slz.blog.global.model.RespuestaBlog;
@@ -23,6 +24,9 @@ public class EtiquetaController {
 
 	@Autowired
 	private EtiquetaService etiquetaService;
+
+	@Autowired
+	private EntradaService entradaService;
 
 	/**
 	 * 
@@ -118,5 +122,31 @@ public class EtiquetaController {
 			responseListadoEtiquetas = new ResponseEntity<List<EtiquetaModel>>(listadoEtiquetas,  HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return responseListadoEtiquetas;
+	}
+
+	/**
+	 * 
+	 * Añadir etiqueta a la entrada
+	 * 
+	 * @param etiquetaModel
+	 * @param errors
+	 * @return ResponseEntity
+	 */
+	@PostMapping("/addEtiqueta")
+	public ResponseEntity<RespuestaBlog> addEtiqueta(@RequestBody List<EtiquetaModel> etiquetaModel, long idEntrada) {
+		ResponseEntity<RespuestaBlog> responseAddEtiqueta = null;
+
+		try {
+			boolean addEtiqueta = entradaService.addEtiquetaEntrada(etiquetaModel, idEntrada);
+			if(addEtiqueta) {
+				responseAddEtiqueta = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
+			} else {
+				responseAddEtiqueta = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED);
+			}
+		} catch (Exception e) {
+			responseAddEtiqueta = new ResponseEntity<RespuestaBlog>(HttpStatus.INTERNAL_SERVER_ERROR); 
+		}
+
+		return responseAddEtiqueta;
 	}
 }

@@ -20,4 +20,5 @@ public interface CategoriaService {
 	boolean editarCategoria(CategoriaModel usuarioModel);
 
 	public boolean borrarCategoria(long idCategoria);
+	
 }

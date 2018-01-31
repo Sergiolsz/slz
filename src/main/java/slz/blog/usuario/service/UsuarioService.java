@@ -13,7 +13,7 @@ public interface UsuarioService {
 	
 	public abstract UsuarioModel getUsuario(long idUsuario);
 	
-	public List<UsuarioModel> listUsuarios(UsuarioModel usuarioModel);
+	public List<UsuarioModel> listadoUsuarios();
 	
 	public abstract boolean existeUsuario(long id);
 

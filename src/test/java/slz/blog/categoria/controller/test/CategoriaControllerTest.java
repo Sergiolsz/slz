@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +20,10 @@ import org.springframework.validation.BindingResult;
 import slz.blog.categoria.controller.CategoriaController;
 import slz.blog.categoria.model.CategoriaModel;
 import slz.blog.categoria.service.CategoriaService;
-
+import slz.blog.entrada.service.EntradaService;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(CategoriaController.class)
+@SpringBootTest(classes={CategoriaController.class})
 public class CategoriaControllerTest {
 
 	@Autowired
@@ -31,6 +31,9 @@ public class CategoriaControllerTest {
 	
 	@MockBean
     private CategoriaService categoriaService;
+	
+	@MockBean
+    private EntradaService entradaService;
 	
 	@MockBean
 	private List<CategoriaModel> listadoCategorias;

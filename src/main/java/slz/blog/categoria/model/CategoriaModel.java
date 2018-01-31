@@ -10,6 +10,8 @@ public class CategoriaModel {
 
 	private long idCategoria;
 	
+	
+	
 	@NotEmpty(message= "El campo categoria " + BlogConstants.ERROR_CAMPO_VACIO)
 	private String nombreCategoria;
 
