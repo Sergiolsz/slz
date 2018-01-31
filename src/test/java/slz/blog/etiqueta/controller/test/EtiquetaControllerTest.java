@@ -2,7 +2,6 @@ package slz.blog.etiqueta.controller.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -31,134 +30,134 @@ public class EtiquetaControllerTest {
 
 	@Autowired
 	private EtiquetaController etiquetaController;
-	
+
 	@MockBean
 	private EtiquetaService etiquetaService;
-	
+
 	@MockBean
 	private EntradaService entradaService;
-	
+
 	@MockBean
 	private EtiquetaModel etiquetaModel;
-	
+
 	@MockBean
 	private List<EtiquetaModel> listadoEtiquetaModel;
-	
+
 	@MockBean
 	private UsuarioModel usuarioModel;
-	
+
 	@MockBean
 	private BindingResult result;
-	
+
 	@Before
 	public void setUp() {
-		
+
 	}
-	
+
 	@Test
 	public void testCrearEtiqueta() {
-		 given(etiquetaService.crearEtiqueta(Mockito.anyObject())).willReturn(true);
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.crearEtiqueta(etiquetaModel, result);
-		 assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
+		given(etiquetaService.crearEtiqueta(Mockito.anyObject())).willReturn(true);
+		ResponseEntity<RespuestaBlog> response = etiquetaController.crearEtiqueta(etiquetaModel, result);
+		assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
 	}
-	
+
 	@Test
 	public void testCrearEtiquetaFalse() {
-		 given(etiquetaService.crearEtiqueta(Mockito.anyObject())).willReturn(false);
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.crearEtiqueta(etiquetaModel, result);
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+		given(etiquetaService.crearEtiqueta(Mockito.anyObject())).willReturn(false);
+		ResponseEntity<RespuestaBlog> response = etiquetaController.crearEtiqueta(etiquetaModel, result);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
-	
+
 	@Test(expected = Exception.class)
 	public void testCrearEtiquetaException() {
-		 when(etiquetaService.crearEtiqueta(Mockito.anyObject())).thenThrow(new Exception());
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.crearEtiqueta(etiquetaModel, result);
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+		given(etiquetaService.crearEtiqueta(Mockito.anyObject())).willThrow(new Exception());
+		ResponseEntity<RespuestaBlog> response = etiquetaController.crearEtiqueta(etiquetaModel, result);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 	@Test
 	public void testBorrarEtiqueta() {
-		 given(etiquetaService.borrarEtiqueta(Mockito.anyLong())).willReturn(true);
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.borrarEtiqueta(Mockito.anyLong());
-		 assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
+		given(etiquetaService.borrarEtiqueta(Mockito.anyLong())).willReturn(true);
+		ResponseEntity<RespuestaBlog> response = etiquetaController.borrarEtiqueta(Mockito.anyLong());
+		assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
 	}
-	
+
 	@Test
 	public void testBorrarEtiquetaFalse() {
-		 given(etiquetaService.borrarEtiqueta(Mockito.anyLong())).willReturn(false);
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.borrarEtiqueta(Mockito.anyLong());
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+		given(etiquetaService.borrarEtiqueta(Mockito.anyLong())).willReturn(false);
+		ResponseEntity<RespuestaBlog> response = etiquetaController.borrarEtiqueta(Mockito.anyLong());
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
 	}
-	
+
 	@Test(expected = Exception.class)
 	public void testBorrarEtiquetaException() {
-		 when(etiquetaService.borrarEtiqueta(Mockito.anyLong())).thenThrow(new Exception());
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.borrarEtiqueta(Mockito.anyLong());
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+		given(etiquetaService.borrarEtiqueta(Mockito.anyLong())).willThrow(new Exception());
+		ResponseEntity<RespuestaBlog> response = etiquetaController.borrarEtiqueta(Mockito.anyLong());
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 	@Test
 	public void testEditarEtiqueta() {
-		 given(etiquetaService.editarEtiqueta(Mockito.anyObject())).willReturn(true);
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.editarEtiqueta(etiquetaModel);
-		 assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
+		given(etiquetaService.editarEtiqueta(Mockito.anyObject())).willReturn(true);
+		ResponseEntity<RespuestaBlog> response = etiquetaController.editarEtiqueta(etiquetaModel);
+		assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
 	}
-	
+
 	@Test
 	public void testEditarEtiquetaFalse() {
-		 given(etiquetaService.editarEtiqueta(Mockito.anyObject())).willReturn(false);
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.editarEtiqueta(etiquetaModel);
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+		given(etiquetaService.editarEtiqueta(Mockito.anyObject())).willReturn(false);
+		ResponseEntity<RespuestaBlog> response = etiquetaController.editarEtiqueta(etiquetaModel);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
 	}
-	
+
 	@Test(expected = Exception.class)
 	public void testEditarEtiquetaException() {
-		 when(etiquetaService.editarEtiqueta(Mockito.anyObject())).thenThrow(new Exception());
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.editarEtiqueta(etiquetaModel);
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+		given(etiquetaService.editarEtiqueta(Mockito.anyObject())).willThrow(new Exception());
+		ResponseEntity<RespuestaBlog> response = etiquetaController.editarEtiqueta(etiquetaModel);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 	@Test
 	public void testGetListadoEtiquetas() {
-		 given(etiquetaService.listadoEtiqueta()).willReturn(listadoEtiquetaModel);
-		 ResponseEntity<List<EtiquetaModel>> response = etiquetaController.listadoEtiquetas(etiquetaModel);
-		 assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
+		given(etiquetaService.listadoEtiqueta()).willReturn(listadoEtiquetaModel);
+		ResponseEntity<List<EtiquetaModel>> response = etiquetaController.listadoEtiquetas(etiquetaModel);
+		assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
 	}
-	
-	
+
+
 	@Test
 	public void testGetListadoEtiquetasNull() {
-		 given(etiquetaService.listadoEtiqueta()).willReturn(null);
-		 ResponseEntity<List<EtiquetaModel>> response = etiquetaController.listadoEtiquetas(etiquetaModel);
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+		given(etiquetaService.listadoEtiqueta()).willReturn(null);
+		ResponseEntity<List<EtiquetaModel>> response = etiquetaController.listadoEtiquetas(etiquetaModel);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@Test(expected = Exception.class)
 	public void testGetListadoEtiquetasException() {
-		 when(etiquetaService.listadoEtiqueta()).thenThrow(new Exception());
-		 ResponseEntity<List<EtiquetaModel>> response = etiquetaController.listadoEtiquetas(etiquetaModel);
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+		given(etiquetaService.listadoEtiqueta()).willThrow(new Exception());
+		ResponseEntity<List<EtiquetaModel>> response = etiquetaController.listadoEtiquetas(etiquetaModel);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 	@Test
 	public void testAddEtiqueta() {
-		 given(entradaService.addEtiquetaEntrada(Mockito.anyObject(), Mockito.anyLong())).willReturn(true);
-		 ResponseEntity<RespuestaBlog> response =  etiquetaController.addEtiqueta(listadoEtiquetaModel, 1);
-		 assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
+		given(entradaService.addEtiquetaEntrada(Mockito.anyObject(), Mockito.anyLong())).willReturn(true);
+		ResponseEntity<RespuestaBlog> response =  etiquetaController.addEtiqueta(listadoEtiquetaModel, 1);
+		assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
 	}
-	
+
 	@Test
 	public void testAddEtiquetaNull() {
-		 given(entradaService.addEtiquetaEntrada(Mockito.anyObject(), Mockito.anyLong())).willReturn(false);
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.addEtiqueta(listadoEtiquetaModel, 1);
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+		given(entradaService.addEtiquetaEntrada(Mockito.anyObject(), Mockito.anyLong())).willReturn(false);
+		ResponseEntity<RespuestaBlog> response = etiquetaController.addEtiqueta(listadoEtiquetaModel, 1);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
 	}
-	
+
 	@Test(expected = Exception.class)
 	public void testAddEtiquetaException() {
-		 when(entradaService.addEtiquetaEntrada(Mockito.anyObject(), Mockito.anyLong())).thenThrow(new Exception());
-		 ResponseEntity<RespuestaBlog> response = etiquetaController.addEtiqueta(listadoEtiquetaModel, 1);
-		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+		given(entradaService.addEtiquetaEntrada(Mockito.anyObject(), Mockito.anyLong())).willThrow(new Exception());
+		ResponseEntity<RespuestaBlog> response = etiquetaController.addEtiqueta(listadoEtiquetaModel, 1);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 }
