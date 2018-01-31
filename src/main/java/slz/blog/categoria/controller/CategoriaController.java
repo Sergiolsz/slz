@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import slz.blog.categoria.model.CategoriaModel;
 import slz.blog.categoria.service.CategoriaService;
@@ -46,7 +45,7 @@ public class CategoriaController {
 				if(categoriaCreada) {
 					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
 				} else {
-					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_FOUND);
 				}
 			} else {
 				responseCrear  = BlogUtil.generarRespuestaErroresValidacion(errors);
@@ -66,7 +65,7 @@ public class CategoriaController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/borrarCategoria")
-	public ResponseEntity<RespuestaBlog> borrarUsuario(@RequestParam(name = "idUsuario", required = true) long idCategoria) {
+	public ResponseEntity<RespuestaBlog> borrarCategoria(@RequestBody(required = true) long idCategoria) {
 		ResponseEntity<RespuestaBlog> responseBorrar = null;
 
 		try {
@@ -91,7 +90,7 @@ public class CategoriaController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/editarCategoria")
-	public ResponseEntity<RespuestaBlog> editarDatosCliente(@Validated @RequestBody CategoriaModel editarCategoria) {
+	public ResponseEntity<RespuestaBlog> editarCategoria(@RequestBody CategoriaModel editarCategoria) {
 		ResponseEntity<RespuestaBlog> responseEditar = null;
 		try {
 			boolean editarOk= categoriaService.editarCategoria(editarCategoria);

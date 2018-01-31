@@ -16,10 +16,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.validation.BindingResult;
 
 import slz.blog.entrada.controller.EntradaController;
+import slz.blog.entrada.entity.Entrada;
 import slz.blog.entrada.model.EntradaModel;
+import slz.blog.entrada.repository.EntradaRepository;
 import slz.blog.entrada.service.EntradaService;
+import slz.blog.global.model.RespuestaBlog;
 import slz.blog.usuario.model.UsuarioModel;
 
 @RunWith(SpringRunner.class)
@@ -33,6 +37,12 @@ public class EntradaControllerTest {
 	private EntradaService entradaService;
 	
 	@MockBean
+	private EntradaRepository entradaRepository;
+	
+	@MockBean
+	private Entrada entrada;
+	
+	@MockBean
 	private EntradaModel entradaModel;
 	
 	@MockBean
@@ -40,12 +50,60 @@ public class EntradaControllerTest {
 	
 	@MockBean
 	private UsuarioModel usuarioModel;
+	
+	@MockBean
+	private BindingResult result;
 
 	@Before
 	public void setUp() {
 		
 	}
 	
+	
+	@Test
+	public void testCrearEntrada() {
+		 given(entradaRepository.save(entrada)).willReturn(entrada);
+		 given(entradaService.crearEntrada(usuarioModel, entradaModel)).willReturn(true);
+		 ResponseEntity<RespuestaBlog> response =  entradaController.crearEntrada(usuarioModel, entradaModel, result);
+		 assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
+	}
+	
+	@Test
+	public void testCrearEntradaFalse() {
+		 given(entradaRepository.save(entrada)).willReturn(entrada);
+		 given(entradaService.crearEntrada(usuarioModel, entradaModel)).willReturn(false);
+		 ResponseEntity<RespuestaBlog> response =  entradaController.crearEntrada(usuarioModel, entradaModel, result);
+		 assertThat(response.getStatusCode()).isEqualTo( HttpStatus.NOT_MODIFIED);
+	}
+	
+	@Test(expected = Exception.class)
+	public void testCrearEntradaException() {
+		 given(entradaRepository.save(entrada)).willThrow(new Exception());
+		 given(entradaService.crearEntrada(usuarioModel, entradaModel)).willReturn(null);
+		 ResponseEntity<RespuestaBlog> response =  entradaController.crearEntrada(usuarioModel, entradaModel, result);
+		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@Test
+	public void testBorrarEntrada() {
+		 given(entradaService.borrarEntrada(Mockito.anyLong())).willReturn(true);
+		 ResponseEntity<RespuestaBlog> response =  entradaController.borrarEntrada(Mockito.anyLong());
+		 assertThat(response.getStatusCode()).isEqualTo( HttpStatus.OK);
+	}
+	
+	@Test
+	public void testBorrarEntradaFalse() {
+		 given(entradaService.borrarEntrada(Mockito.anyLong())).willReturn(false);
+		 ResponseEntity<RespuestaBlog> response =  entradaController.borrarEntrada(Mockito.anyLong());
+		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+	}
+	
+	@Test(expected = Exception.class)
+	public void testBorrarEntradaException() {
+		 when(entradaService.borrarEntrada(Mockito.anyLong())).thenThrow(new Exception());
+		 ResponseEntity<RespuestaBlog> response =  entradaController.borrarEntrada(Mockito.anyLong());
+		 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	
 	@Test
 	public void testGetListadoEntradas() {

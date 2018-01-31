@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import slz.blog.entrada.service.EntradaService;
 import slz.blog.etiqueta.model.EtiquetaModel;
@@ -45,7 +44,7 @@ public class EtiquetaController {
 				if(usuarioCreado) {
 					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
 				} else {
-					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_FOUND);
 				}
 			} else {
 				responseCrear  = BlogUtil.generarRespuestaErroresValidacion(errors);
@@ -64,7 +63,7 @@ public class EtiquetaController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/borrarEtiqueta")
-	public ResponseEntity<RespuestaBlog> borrarEtiqueta(@RequestParam(name = "idEtiqueta", required = true) long idEtiqueta) {
+	public ResponseEntity<RespuestaBlog> borrarEtiqueta(@RequestBody(required = true) long idEtiqueta) {
 		ResponseEntity<RespuestaBlog> responseBorrar = null;
 		try {
 			boolean borrarOk= etiquetaService.borrarEtiqueta(idEtiqueta);
@@ -86,7 +85,7 @@ public class EtiquetaController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/editarEtiqueta")
-	public ResponseEntity<RespuestaBlog> editarEtiqueta(@Validated @RequestBody EtiquetaModel etiquetaEditada) {
+	public ResponseEntity<RespuestaBlog> editarEtiqueta(@RequestBody EtiquetaModel etiquetaEditada) {
 		ResponseEntity<RespuestaBlog> responseEditar = null;
 		try {
 			boolean editarOk= etiquetaService.editarEtiqueta(etiquetaEditada);

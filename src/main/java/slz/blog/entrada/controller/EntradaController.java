@@ -39,11 +39,11 @@ public class EntradaController {
 
 		try {
 			if(!errors.hasErrors()) {
-				boolean categoriaCreada = entradaService.crearEntrada(usuarioModel, entradaModel);
-				if(categoriaCreada) {
+				boolean entradaCreada = entradaService.crearEntrada(usuarioModel, entradaModel);
+				if(entradaCreada) {
 					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
 				} else {
-					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED);
 				}
 			} else {
 				responseCrear  = BlogUtil.generarRespuestaErroresValidacion(errors);
@@ -63,7 +63,7 @@ public class EntradaController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/borrarEntrada")
-	public ResponseEntity<RespuestaBlog> borrarEntrada(@RequestBody long idEntrada) {
+	public ResponseEntity<RespuestaBlog> borrarEntrada(@RequestBody(required = true) long idEntrada) {
 		ResponseEntity<RespuestaBlog> responseBorrar = null;
 
 		try {
@@ -71,7 +71,7 @@ public class EntradaController {
 			if(entradaBorrada) {
 				responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
 			} else {
-				responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+				responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_MODIFIED);
 			}
 		} catch (Exception e) {
 			responseBorrar = new ResponseEntity<RespuestaBlog>(HttpStatus.INTERNAL_SERVER_ERROR); 
@@ -89,19 +89,19 @@ public class EntradaController {
 	 */
 	@PostMapping("/listadoEntradas")
 	public ResponseEntity<List<EntradaModel>> listadoEntradas(@RequestBody(required = false) UsuarioModel usuarioModel) {
-		ResponseEntity<List<EntradaModel>> responseListadoEtiquetas = null;
-		List<EntradaModel> listadoEtiquetas = new ArrayList<EntradaModel>();
+		ResponseEntity<List<EntradaModel>> responseListadoEntradas = null;
+		List<EntradaModel> listadoEntradas = new ArrayList<EntradaModel>();
 		try {
-			listadoEtiquetas = entradaService.listadoEntradas(usuarioModel);
-			if (listadoEtiquetas != null) {
-				responseListadoEtiquetas = new ResponseEntity<List<EntradaModel>>(listadoEtiquetas,  HttpStatus.OK);
+			listadoEntradas = entradaService.listadoEntradas(usuarioModel);
+			if (listadoEntradas != null) {
+				responseListadoEntradas = new ResponseEntity<List<EntradaModel>>(listadoEntradas,  HttpStatus.OK);
 			} else {
-				responseListadoEtiquetas = new ResponseEntity<List<EntradaModel>>(listadoEtiquetas,  HttpStatus.NO_CONTENT);
+				responseListadoEntradas = new ResponseEntity<List<EntradaModel>>(listadoEntradas,  HttpStatus.NO_CONTENT);
 			}
 		} catch (Exception exception) {
-			responseListadoEtiquetas = new ResponseEntity<List<EntradaModel>>(listadoEtiquetas,  HttpStatus.INTERNAL_SERVER_ERROR);
+			responseListadoEntradas = new ResponseEntity<List<EntradaModel>>(listadoEntradas,  HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return responseListadoEtiquetas;
+		return responseListadoEntradas;
 	}
 
 }

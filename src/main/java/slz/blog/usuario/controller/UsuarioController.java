@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import slz.blog.global.model.RespuestaBlog;
 import slz.blog.global.utils.BlogUtil;
@@ -41,7 +40,7 @@ public class UsuarioController {
 				if(usuarioCreado) {
 					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.OK);
 				} else {
-					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+					responseCrear = new ResponseEntity<RespuestaBlog>(HttpStatus.NOT_FOUND);
 				}
 			} else {
 				responseCrear  = BlogUtil.generarRespuestaErroresValidacion(errors);
@@ -60,7 +59,7 @@ public class UsuarioController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/bajaUsuario")
-	public ResponseEntity<RespuestaBlog> borrarUsuario(@RequestParam(name = "idUsuario", required = true) long idUsuario) {
+	public ResponseEntity<RespuestaBlog> borrarUsuario(@RequestBody(required = true) long idUsuario) {
 		ResponseEntity<RespuestaBlog> responseBorrar = null;
 		try {
 			boolean borrarOk= usuarioService.bajaUsuario(idUsuario);
@@ -82,7 +81,7 @@ public class UsuarioController {
 	 * @return ResponseEntity
 	 */
 	@PostMapping("/editarUsuario")
-	public ResponseEntity<RespuestaBlog> editarDatosCliente(@Validated @RequestBody UsuarioModel usuarioModel) {
+	public ResponseEntity<RespuestaBlog> editarDatosUsuario(@RequestBody UsuarioModel usuarioModel) {
 		ResponseEntity<RespuestaBlog> responseEditar = null;
 		try {
 			boolean editarOk= usuarioService.editarUsuario(usuarioModel);
